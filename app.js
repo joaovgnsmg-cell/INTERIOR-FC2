@@ -6,13 +6,13 @@ const jogadores = [
     assistencias: 0
   },
   {
-    nome: "Pedro",
+    nome: "Pedrox",
     foto: "imagens/pedrox.png.jpg",
     gols: 0,
     assistencias: 0
   },
   {
-    nome: "Paulo",
+    nome: "Tubão",
     foto: "imagens/pretox.png.jpg",
     gols: 0,
     assistencias: 0
@@ -36,7 +36,7 @@ const jogadores = [
     assistencias: 0
   },
   {
-    nome: "João Gomes",
+    nome: "O GOMEX",
     foto: "imagens/gomex.png.jpg",
     gols: 1,
     assistencias: 0
