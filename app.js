@@ -119,3 +119,57 @@ function renderizarTabela() {
 }
 
 renderizarTabela();
+
+const SENHA_ADMIN = "7777";
+
+const adminBtn = document.getElementById("adminBtn");
+const adminPanel = document.getElementById("adminPanel");
+const listaAdmin = document.getElementById("listaAdmin");
+
+
+adminBtn.addEventListener("click", () => {
+  const senha = prompt("Digite a senha de administrador:");
+
+  if (senha === SENHA_ADMIN) {
+    adminPanel.classList.toggle("hidden");
+    renderizarPainelAdmin();
+  } else {
+    alert("Senha incorreta!");
+  }
+});
+
+// Renderiza os controles do painel
+function renderizarPainelAdmin() {
+  listaAdmin.innerHTML = "";
+
+  jogadores.forEach((jogador, index) => {
+    const div = document.createElement("div");
+    div.className = "admin-player";
+
+    div.innerHTML = `
+      <span>${jogador.nome}</span>
+
+      <div class="controles">
+        <button onclick="alterar(${index}, 'gols', -1)">-⚽</button>
+        <button onclick="alterar(${index}, 'gols', 1)">+⚽</button>
+
+        <button onclick="alterar(${index}, 'assistencias', -1)">-🎯</button>
+        <button onclick="alterar(${index}, 'assistencias', 1)">+🎯</button>
+      </div>
+    `;
+
+    listaAdmin.appendChild(div);
+  });
+}
+
+// Alterar estatísticas
+function alterar(index, tipo, valor) {
+  jogadores[index][tipo] += valor;
+
+  if (jogadores[index][tipo] < 0) {
+    jogadores[index][tipo] = 0;
+  }
+
+  renderizarTabela();
+  renderizarPainelAdmin();
+}
