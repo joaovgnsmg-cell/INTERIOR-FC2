@@ -192,3 +192,21 @@ footer {
                          .controles button:hover{
                              opacity:.85; 
                             }
+.salvar-btn{ 
+background:#00c853; 
+color:white; 
+border:none; 
+padding:14px 20px; 
+ border-radius:12px;
+ font-size:16px; 
+font-weight:bold; 
+cursor:pointer; 
+margin-top:20px; 
+ width:100%; 
+transition:.3s; 
+}
+.salvar-btn:hover{
+  background:#00e676;
+  transform:scale(1.02);
+  box-shadow:0 0 15px rgba(0,230,118,.5);
+}

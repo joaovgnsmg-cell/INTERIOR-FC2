@@ -169,7 +169,7 @@ function alterar(index, tipo, valor) {
   if (jogadores[index][tipo] < 0) {
     jogadores[index][tipo] = 0;
   }
-  salvarDados();
+  
   renderizarTabela();
   renderizarPainelAdmin();
 }
@@ -193,6 +193,32 @@ function carregarDados() {
     });
   }
 }
+
+// Carrega ao abrir o site
+carregarDados();
+renderizarTabela();
+// ===== SALVAR DADOS =====
+function salvarDados() {
+  localStorage.setItem("jogadores", JSON.stringify(jogadores));
+  alert("✅ Alterações salvas com sucesso!");
+}
+
+// ===== CARREGAR DADOS =====
+function carregarDados() {
+  const dados = localStorage.getItem("jogadores");
+
+  if (dados) {
+    const salvos = JSON.parse(dados);
+
+    jogadores.forEach((j, i) => {
+      j.gols = salvos[i].gols;
+      j.assistencias = salvos[i].assistencias;
+    });
+  }
+}
+
+// Botão salvar
+document.getElementById("salvarBtn").addEventListener("click", salvarDados);
 
 // Carrega ao abrir o site
 carregarDados();
