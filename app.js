@@ -169,7 +169,31 @@ function alterar(index, tipo, valor) {
   if (jogadores[index][tipo] < 0) {
     jogadores[index][tipo] = 0;
   }
-
+  salvarDados();
   renderizarTabela();
   renderizarPainelAdmin();
 }
+// ===== SALVAR DADOS =====
+
+function salvarDados() {
+  localStorage.setItem("jogadores", JSON.stringify(jogadores));
+}
+
+// ===== CARREGAR DADOS =====
+
+function carregarDados() {
+  const dados = localStorage.getItem("jogadores");
+
+  if (dados) {
+    const salvos = JSON.parse(dados);
+
+    jogadores.forEach((j, i) => {
+      j.gols = salvos[i].gols;
+      j.assistencias = salvos[i].assistencias;
+    });
+  }
+}
+
+// Carrega ao abrir o site
+carregarDados();
+renderizarTabela();
