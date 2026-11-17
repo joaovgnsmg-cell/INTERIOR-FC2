@@ -126,8 +126,31 @@ function atualizarRanking() {
 
 // 9. ABRIR E FECHAR PAINEL ADMIN
 
+// 9. ACESSO AO PAINEL ADMIN
+
+const SENHA_ADMIN = "7070";
+
 adminBtn.addEventListener("click", () => {
-    adminPanel.classList.toggle("hidden");
+
+    if (adminPanel.classList.contains("hidden")) {
+
+        const senha = prompt("Digite a senha de administrador:");
+
+        if (senha !== SENHA_ADMIN) {
+            alert("Senha incorreta!");
+            return;
+        }
+
+        adminPanel.classList.remove("hidden");
+
+        adminBtn.textContent = "🔓 Fechar Painel Admin";
+
+    } else {
+
+        adminPanel.classList.add("hidden");
+
+        adminBtn.textContent = "🔒 Painel Admin";
+    }
 });
 
 // 10. EXIBIR JOGADORES NO ADMIN
