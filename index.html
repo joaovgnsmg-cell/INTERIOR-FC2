@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interior FC - Artilharia</title>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Interior FC - Artilharia</title>
 
-  <link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
+ <div class="container">
 
-    <header class="topo">
-      <div class="bola">⚽</div>
+<header class="topo">
+<div class="bola">⚽</div>
 
-      <div>
-        <h1>INTERIOR FC</h1>
-        <p>Controle de gols, assistências e pontos</p>
-       <button id="adminBtn">🔒 Painel Admin</button>
-      </div>
+ <div>
+ <h1>INTERIOR FC</h1>
+ <p>Controle de gols, assistências e pontos</p>
+<button id="adminBtn">🔒 Painel Admin</button>
+</div>
 
-      <div class="bola">⚽</div>
-    </header>
-    <div id="adminPanel" class="hidden"> 
-        <h2>⚙️ Painel de Administração</h2>
-         <div id="listaAdmin"></div>
-          <button id="salvarBtn" class="salvar-btn"> 
-            💾 Salvar Alterações 
-        </button> 
-        </div>
-    <div class="tabela-box">
-      <table>
+ <div class="bola">⚽</div>
+ </header>
+ <div id="adminPanel" class="hidden"> 
+<h2>⚙️ Painel de Administração</h2>
+<div id="listaAdmin"></div>
+ <button id="salvarBtn" class="salvar-btn"> 
+💾 Salvar Alterações 
+</button> 
+</div>
+<div class="tabela-box">
+<table>
 
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Jogador</th>
-            <th>⚽ Gols</th>
-            <th>👟 Assistências</th>
-            <th>🏆 Pontos</th>
-          </tr>
-        </thead>
+<thead>
+<tr>
+ <th>#</th>
+ <th>Jogador</th>
+ <th>⚽ Gols</th>
+<th>👟 Assistências</th>
+ <th>🏆 Pontos</th>
+</tr>
+</thead>
 
-        <tbody id="ranking">
+ <tbody id="ranking">
 
-        </tbody>
+ </tbody>
 
-      </table>
-    </div>
+</table>
+</div>
 
-    <footer>
-      <p>Interior FC © 2026</p>
-    </footer>
+ <footer>
+<p>Interior FC © 2026</p>
+</footer>
 
-  </div>
+</div>
 
-
-  <script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ <script src="app.js"></script>
 </body>
 </html>

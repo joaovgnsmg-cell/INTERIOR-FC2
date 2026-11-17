@@ -210,3 +210,294 @@ transition:.3s;
   transform:scale(1.02);
   box-shadow:0 0 15px rgba(0,230,118,.5);
 }
+
+/* CORREÇÃO DO RANKING */
+.tabela-box {
+    width: 100%;
+    margin-top: 25px;
+    overflow-x: auto;
+    border-radius: 20px;
+}
+
+table {
+    width: 100%;
+    min-width: 650px;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+th:first-child,
+td:first-child {
+    width: 8%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 40%;
+}
+
+th:nth-child(3),
+td:nth-child(3),
+th:nth-child(4),
+td:nth-child(4),
+th:nth-child(5),
+td:nth-child(5) {
+    width: 17.33%;
+}
+
+th, td {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+td.jogador {
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.jogador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.jogador img {
+    flex-shrink: 0;
+}
+
+.jogador span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 10px;
+    }
+
+    .tabela-box {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 650px;
+    }
+
+    th, td {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+}
+
+/* AJUSTE FINAL DA TABELA */
+
+.tabela-box {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 650px;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+th:first-child,
+td:first-child {
+    width: 8%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 40%;
+}
+
+th:nth-child(3),
+td:nth-child(3),
+th:nth-child(4),
+td:nth-child(4),
+th:nth-child(5),
+td:nth-child(5) {
+    width: 17.33%;
+}
+
+.jogador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    min-width: 0;
+}
+
+.jogador img {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #0f7a2f;
+}
+
+.jogador span {
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td {
+    vertical-align: middle;
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 10px;
+    }
+
+    .tabela-box {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 650px;
+    }
+
+    th, td {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .jogador img {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+}
+
+/* ===== PAINEL ADMINISTRATIVO ===== */
+
+#adminPanel {
+    background: #101510;
+    border: 1px solid #0f7a2f;
+    border-radius: 18px;
+    padding: 22px;
+    margin-top: 20px;
+    box-shadow: 0 0 18px rgba(15, 122, 47, 0.12);
+}
+
+#adminPanel h2 {
+    color: #2ecc71;
+    font-size: 23px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* CARD DE CADA JOGADOR */
+
+.admin-player {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: #191f1a;
+    border: 1px solid #292f29;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: 0.3s;
+}
+
+.admin-player:hover {
+    border-color: #2ecc71;
+    transform: translateY(-2px);
+}
+
+.admin-player h3 {
+    width: 100%;
+    color: white;
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+
+.admin-player p {
+    color: #c8d5ca;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* BOTÕES DE GOLS E ASSISTÊNCIAS */
+
+.admin-player button {
+    background: #0f7a2f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 9px;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admin-player button:hover {
+    background: #2ecc71;
+    color: #050505;
+    transform: scale(1.04);
+}
+
+.admin-player button:active {
+    transform: scale(0.96);
+}
+
+/* BOTÃO SALVAR */
+
+.salvar-btn {
+    background: #00c853;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.salvar-btn:hover {
+    background: #00e676;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+}
+
+.salvar-btn:disabled,
+.admin-player button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+    #adminPanel {
+        padding: 14px;
+    }
+
+    .admin-player {
+        gap: 9px;
+        padding: 12px;
+    }
+
+    .admin-player button {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .admin-player h3 {
+        font-size: 17px;
+    }
+}

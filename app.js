@@ -1,225 +1,338 @@
-const jogadores = [
-  {
-    nome: "Ulisses",
-    foto: "imagens/uli.png.jpg",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Pedrox",
-    foto: "imagens/pedrox.png.jpg",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Tubão",
-    foto: "imagens/pretox.png.jpg",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Asafe",
-    foto: "imagens/asafe.png.jpg",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Alfredo",
-    foto: "imagens/af.jpg",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Neto",
-    foto: "https://i.pravatar.cc/100?img=16",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "O GOMEX",
-    foto: "imagens/gomex.png.jpg",
-    gols: 1,
-    assistencias: 0
-  },
-  {
-    nome: "Josué",
-    foto: "https://i.pravatar.cc/100?img=18",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Davi",
-    foto: "https://i.pravatar.cc/100?img=19",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Ronny",
-    foto: "https://i.pravatar.cc/100?img=20",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Jocyel",
-    foto: "https://i.pravatar.cc/100?img=21",
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Doryedson",
-    foto: "https://i.pravatar.cc/100?img=22",
-    gols: 0,
-    assistencias: 0
-  }
-];
 
-function renderizarTabela() {
+/* =====================================
+   INTERIOR FC - SISTEMA PRINCIPAL
+===================================== */
 
-  // Calcula os pontos
-  jogadores.forEach(j => {
-    j.pontos = j.gols + j.assistencias;
-  });
+// 1. CONFIGURAÇÃO SUPABASE
 
-  // Ordena pelo ranking
-  jogadores.sort((a, b) =>
-    b.pontos - a.pontos ||
-    b.gols - a.gols ||
-    b.assistencias - a.assistencias
-  );
+const SUPABASE_URL = "https://mfjihluzwanyigtchjwc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_P5yv5OoNlf05_ra7EjS9mA_LLaTodQo";
 
-  const tabela = document.getElementById("ranking");
-  tabela.innerHTML = "";
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-  jogadores.forEach((j, index) => {
+// 2. ELEMENTOS HTML
 
-    const tr = document.createElement("tr");
+const tabelaRanking = document.querySelector("#ranking");
+const adminBtn = document.querySelector("#adminBtn");
+const adminPanel = document.querySelector("#adminPanel");
+const listaAdmin = document.querySelector("#listaAdmin");
+const salvarBtn = document.querySelector("#salvarBtn");
 
-    // Destaques do pódio
-    if (index === 0) tr.classList.add("primeiro");
-    if (index === 1) tr.classList.add("segundo");
-    if (index === 2) tr.classList.add("terceiro");
+// 3. VARIÁVEIS
 
-    tr.innerHTML = `
-      <td class="posicao">${index + 1}</td>
+let jogadores = [];
+let alteracoesPendentes = {};
+let salvando = false;
 
-      <td>
-        <div class="jogador">
-          <img src="${j.foto}" alt="${j.nome}">
-          <span>${j.nome}</span>
-        </div>
-      </td>
+// 4. CALCULAR PONTOS
 
-      <td>${j.gols}</td>
-      <td>${j.assistencias}</td>
-      <td class="pontos">${j.pontos}</td>
-    `;
+function calcularPontos(jogador) {
+    const gols = Number(jogador.gols) || 0;
+    const assistencias = Number(jogador.assistencias) || 0;
 
-    tabela.appendChild(tr);
-  });
+    return gols + (assistencias * 0.5);
 }
 
-renderizarTabela();
+// 5. FORMATAÇÃO DOS PONTOS
 
-const SENHA_ADMIN = "7777";
+function formatarPontos(pontos) {
+    return pontos.toLocaleString("pt-BR", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1
+    });
+}
 
-const adminBtn = document.getElementById("adminBtn");
-const adminPanel = document.getElementById("adminPanel");
-const listaAdmin = document.getElementById("listaAdmin");
+// 6. PROTEGER TEXTOS
 
+function escaparHTML(valor) {
+    return String(valor ?? "").replace(/[&<>"']/g, caractere => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[caractere]);
+}
+
+// 7. ORGANIZAR RANKING
+
+function organizarRanking() {
+    return [...jogadores].sort((a, b) => {
+
+        const diferenca =
+            calcularPontos(b) - calcularPontos(a);
+
+        if (diferenca !== 0) return diferenca;
+
+        const diferencaGols =
+            Number(b.gols) - Number(a.gols);
+
+        if (diferencaGols !== 0) return diferencaGols;
+
+        return a.nome.localeCompare(b.nome);
+    });
+}
+
+// 8. EXIBIR RANKING
+
+
+// 8. EXIBIR RANKING
+
+function atualizarRanking() {
+
+    if (!tabelaRanking) return;
+
+    const ranking = organizarRanking();
+
+    tabelaRanking.innerHTML = "";
+
+    ranking.forEach((jogador, indice) => {
+
+        const linha = document.createElement("tr");
+
+        if (indice === 0) linha.classList.add("primeiro");
+        if (indice === 1) linha.classList.add("segundo");
+        if (indice === 2) linha.classList.add("terceiro");
+
+        linha.innerHTML = `
+            <td class="posicao">${indice + 1}º</td>
+
+            <td>
+                <div class="jogador">
+                    <img
+                        src="${escaparHTML(jogador.foto || '')}"
+                        alt="${escaparHTML(jogador.nome)}"
+                    >
+                    <span>${escaparHTML(jogador.nome)}</span>
+                </div>
+            </td>
+
+            <td>${Number(jogador.gols) || 0}</td>
+
+            <td>${Number(jogador.assistencias) || 0}</td>
+
+            <td class="pontos">
+                ${formatarPontos(calcularPontos(jogador))}
+            </td>
+        `;
+
+        tabelaRanking.appendChild(linha);
+    });
+}
+
+
+// 9. ABRIR E FECHAR PAINEL ADMIN
 
 adminBtn.addEventListener("click", () => {
-  const senha = prompt("Digite a senha de administrador:");
-
-  if (senha === SENHA_ADMIN) {
     adminPanel.classList.toggle("hidden");
-    renderizarPainelAdmin();
-  } else {
-    alert("Senha incorreta!");
-  }
 });
 
-// Renderiza os controles do painel
-function renderizarPainelAdmin() {
-  listaAdmin.innerHTML = "";
+// 10. EXIBIR JOGADORES NO ADMIN
 
-  jogadores.forEach((jogador, index) => {
-    const div = document.createElement("div");
-    div.className = "admin-player";
+function atualizarPainelAdmin() {
 
-    div.innerHTML = `
-      <span>${jogador.nome}</span>
+    listaAdmin.innerHTML = "";
 
-      <div class="controles">
-        <button onclick="alterar(${index}, 'gols', -1)">-⚽</button>
-        <button onclick="alterar(${index}, 'gols', 1)">+⚽</button>
+    jogadores.forEach(jogador => {
 
-        <button onclick="alterar(${index}, 'assistencias', -1)">-🎯</button>
-        <button onclick="alterar(${index}, 'assistencias', 1)">+🎯</button>
-      </div>
-    `;
+        const pendente = alteracoesPendentes[jogador.id] || {};
 
-    listaAdmin.appendChild(div);
-  });
-}
+        const gols = pendente.gols !== undefined
+            ? pendente.gols
+            : Number(jogador.gols) || 0;
 
-// Alterar estatísticas
-function alterar(index, tipo, valor) {
-  jogadores[index][tipo] += valor;
+        const assistencias = pendente.assistencias !== undefined
+            ? pendente.assistencias
+            : Number(jogador.assistencias) || 0;
 
-  if (jogadores[index][tipo] < 0) {
-    jogadores[index][tipo] = 0;
-  }
-  
-  renderizarTabela();
-  renderizarPainelAdmin();
-}
-// ===== SALVAR DADOS =====
+        const elemento = document.createElement("div");
 
-function salvarDados() {
-  localStorage.setItem("jogadores", JSON.stringify(jogadores));
-}
+        elemento.classList.add("admin-player");
 
-// ===== CARREGAR DADOS =====
+        elemento.innerHTML = `
+            <h3>${escaparHTML(jogador.nome)}</h3>
 
-function carregarDados() {
-  const dados = localStorage.getItem("jogadores");
+            <p>Gols: ${gols}</p>
+            <button data-id="${jogador.id}"
+                    data-campo="gols"
+                    data-valor="1">+ Gol</button>
 
-  if (dados) {
-    const salvos = JSON.parse(dados);
+            <button data-id="${jogador.id}"
+                    data-campo="gols"
+                    data-valor="-1">- Gol</button>
 
-    jogadores.forEach((j, i) => {
-      j.gols = salvos[i].gols;
-      j.assistencias = salvos[i].assistencias;
+            <p>Assistências: ${assistencias}</p>
+            <button data-id="${jogador.id}"
+                    data-campo="assistencias"
+                    data-valor="1">+ Assistência</button>
+
+            <button data-id="${jogador.id}"
+                    data-campo="assistencias"
+                    data-valor="-1">- Assistência</button>
+        `;
+
+        listaAdmin.appendChild(elemento);
     });
-  }
 }
 
-// Carrega ao abrir o site
-carregarDados();
-renderizarTabela();
-// ===== SALVAR DADOS =====
-function salvarDados() {
-  localStorage.setItem("jogadores", JSON.stringify(jogadores));
-  alert("✅ Alterações salvas com sucesso!");
+// 11. ALTERAR ESTATÍSTICAS TEMPORARIAMENTE
+
+listaAdmin.addEventListener("click", event => {
+
+    const botao = event.target.closest("button");
+
+    if (!botao || salvando) return;
+
+    const id = botao.dataset.id;
+    const campo = botao.dataset.campo;
+    const valor = Number(botao.dataset.valor);
+
+    if (!["gols", "assistencias"].includes(campo)) return;
+
+    const jogador = jogadores.find(
+        item => String(item.id) === String(id)
+    );
+
+    if (!jogador) return;
+
+    if (!alteracoesPendentes[id]) {
+        alteracoesPendentes[id] = {};
+    }
+
+    const atual = alteracoesPendentes[id][campo] !== undefined
+        ? alteracoesPendentes[id][campo]
+        : Number(jogador[campo]) || 0;
+
+    const novoValor = atual + valor;
+
+    if (novoValor < 0) {
+        alert("A estatística não pode ser negativa!");
+        return;
+    }
+
+    alteracoesPendentes[id][campo] = novoValor;
+
+    atualizarPainelAdmin();
+    atualizarRanking();
+});
+
+// 12. SALVAR ALTERAÇÕES NO SUPABASE
+
+salvarBtn.addEventListener("click", async () => {
+
+    if (salvando) return;
+
+    if (Object.keys(alteracoesPendentes).length === 0) {
+        alert("Não existem alterações para salvar.");
+        return;
+    }
+
+    salvando = true;
+    salvarBtn.disabled = true;
+
+    try {
+
+        const pendentes = Object.entries(alteracoesPendentes);
+
+        for (const [id, dados] of pendentes) {
+
+            const { data, error } = await supabaseClient
+                .from("jogadores")
+                .update(dados)
+                .eq("id", id)
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            jogadores = jogadores.map(jogador =>
+                String(jogador.id) === String(data.id)
+                    ? data
+                    : jogador
+            );
+
+            delete alteracoesPendentes[id];
+        }
+
+        atualizarRanking();
+        atualizarPainelAdmin();
+
+        alert("Alterações salvas com sucesso!");
+
+    } catch (error) {
+
+        console.error("Erro ao salvar:", error);
+
+        alert(
+            "Erro ao salvar as alterações. Confira o Supabase e tente novamente."
+        );
+
+        // Atualizar a tela com os dados confirmados
+        atualizarRanking();
+        atualizarPainelAdmin();
+
+    } finally {
+
+        salvando = false;
+        salvarBtn.disabled = false;
+
+    }
+});
+
+// 13. CARREGAR JOGADORES
+
+async function carregarJogadores() {
+
+    const { data, error } = await supabaseClient
+        .from("jogadores")
+        .select("*");
+
+    if (error) {
+        console.error("Erro ao carregar jogadores:", error);
+        alert("Não foi possível carregar o ranking.");
+        return;
+    }
+
+    jogadores = data || [];
+
+    atualizarRanking();
+    atualizarPainelAdmin();
 }
 
-// ===== CARREGAR DADOS =====
-function carregarDados() {
-  const dados = localStorage.getItem("jogadores");
+// 14. ATUALIZAÇÃO EM TEMPO REAL
 
-  if (dados) {
-    const salvos = JSON.parse(dados);
+supabaseClient
+    .channel("interior-fc-ranking")
+    .on(
+        "postgres_changes",
+        {
+            event: "*",
+            schema: "public",
+            table: "jogadores"
+        },
+        async () => {
 
-    jogadores.forEach((j, i) => {
-      j.gols = salvos[i].gols;
-      j.assistencias = salvos[i].assistencias;
-    });
-  }
-}
+            // Preservar alterações locais ainda não salvas
+            const { data, error } = await supabaseClient
+                .from("jogadores")
+                .select("*");
 
-// Botão salvar
-document.getElementById("salvarBtn").addEventListener("click", salvarDados);
+            if (error) {
+                console.error("Erro no realtime:", error);
+                return;
+            }
 
-// Carrega ao abrir o site
-carregarDados();
-renderizarTabela();
+            jogadores = data || [];
+
+            atualizarRanking();
+            atualizarPainelAdmin();
+        }
+    )
+    .subscribe();
+
+// 15. INICIAR SISTEMA
+
+carregarJogadores();
