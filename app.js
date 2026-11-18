@@ -45,6 +45,45 @@ function formatarPontos(pontos) {
     });
 }
 
+// ===== ATUALIZAR ESTATÍSTICAS GERAIS =====
+
+function atualizarEstatisticas() {
+
+    let totalGols = 0;
+    let totalAssistencias = 0;
+    let totalPontos = 0;
+
+    jogadores.forEach(jogador => {
+
+        const pendente = alteracoesPendentes[jogador.id] || {};
+
+        const gols = pendente.gols !== undefined
+            ? Number(pendente.gols)
+            : Number(jogador.gols) || 0;
+
+        const assistencias = pendente.assistencias !== undefined
+            ? Number(pendente.assistencias)
+            : Number(jogador.assistencias) || 0;
+
+        totalGols += gols;
+        totalAssistencias += assistencias;
+
+        totalPontos += gols + (assistencias * 0.5);
+    });
+
+    document.querySelector("#totalGols").textContent = totalGols;
+
+    document.querySelector("#totalAssistencias").textContent =
+        totalAssistencias;
+
+    document.querySelector("#totalJogadores").textContent =
+        jogadores.length;
+
+    document.querySelector("#totalPontos").textContent =
+        formatarPontos(totalPontos);
+}
+
+
 // 6. PROTEGER TEXTOS
 
 function escaparHTML(valor) {
@@ -76,7 +115,61 @@ function organizarRanking() {
     });
 }
 
-// 8. EXIBIR RANKING
+
+// ===== ATUALIZAR DESTAQUES DA TEMPORADA =====
+
+function atualizarDestaques() {
+
+    if (jogadores.length === 0) return;
+
+    // Considerar também alterações ainda não salvas
+    const jogadoresAtualizados = jogadores.map(jogador => {
+
+        const pendente = alteracoesPendentes[jogador.id] || {};
+
+        return {
+            ...jogador,
+            gols: pendente.gols !== undefined
+                ? Number(pendente.gols)
+                : Number(jogador.gols) || 0,
+
+            assistencias: pendente.assistencias !== undefined
+                ? Number(pendente.assistencias)
+                : Number(jogador.assistencias) || 0
+        };
+    });
+
+    const artilheiro = [...jogadoresAtualizados].sort(
+        (a, b) => b.gols - a.gols
+    )[0];
+
+    const garcom = [...jogadoresAtualizados].sort(
+        (a, b) => b.assistencias - a.assistencias
+    )[0];
+
+    const lider = [...jogadoresAtualizados].sort(
+        (a, b) => calcularPontos(b) - calcularPontos(a)
+    )[0];
+
+    // Artilheiro
+    document.querySelector("#fotoArtilheiro").src = artilheiro.foto || "";
+    document.querySelector("#nomeArtilheiro").textContent = artilheiro.nome;
+    document.querySelector("#golsArtilheiro").textContent =
+        `${artilheiro.gols} gols`;
+
+    // Maior assistente
+    document.querySelector("#fotoGarcom").src = garcom.foto || "";
+    document.querySelector("#nomeGarcom").textContent = garcom.nome;
+    document.querySelector("#assistenciasGarcom").textContent =
+        `${garcom.assistencias} assistências`;
+
+    // Líder
+    document.querySelector("#fotoLider").src = lider.foto || "";
+    document.querySelector("#nomeLider").textContent = lider.nome;
+    document.querySelector("#pontosLider").textContent =
+        `${formatarPontos(calcularPontos(lider))} pontos`;
+}
+
 
 
 // 8. EXIBIR RANKING
@@ -121,6 +214,8 @@ function atualizarRanking() {
 
         tabelaRanking.appendChild(linha);
     });
+    atualizarEstatisticas();
+    atualizarDestaques();
 }
 
 
@@ -359,3 +454,115 @@ supabaseClient
 // 15. INICIAR SISTEMA
 
 carregarJogadores();
+// ===== AMPLIAR FOTO DOS JOGADORES =====
+
+const modalFoto = document.createElement("div");
+
+modalFoto.className = "foto-modal";
+
+modalFoto.innerHTML = `
+    <button class="fechar-foto">&times;</button>
+    <img src="" alt="Foto ampliada do jogador">
+`;
+
+document.body.appendChild(modalFoto);
+
+const imagemAmpliada = modalFoto.querySelector("img");
+const fecharFoto = modalFoto.querySelector(".fechar-foto");
+
+// Abrir foto ao clicar
+document.addEventListener("click", function(event) {
+
+    const foto = event.target.closest(".jogador img");
+
+    if (foto) {
+      if (foto.closest(".jogador")) return;
+        imagemAmpliada.src = foto.src;
+        imagemAmpliada.alt = foto.alt || "Foto do jogador";
+
+        modalFoto.classList.add("ativo");
+        document.body.style.overflow = "hidden";
+    }
+
+});
+
+// Fechar clicando fora da imagem
+modalFoto.addEventListener("click", function(event) {
+
+    if (
+        event.target === modalFoto ||
+        event.target === fecharFoto
+    ) {
+        modalFoto.classList.remove("ativo");
+        document.body.style.overflow = "";
+    }
+
+});
+
+// Fechar com ESC
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        modalFoto.classList.remove("ativo");
+        document.body.style.overflow = "";
+    }
+
+});
+
+// ===== PERFIL INDIVIDUAL DOS JOGADORES =====
+
+const perfilModal = document.querySelector("#perfilModal");
+const fecharPerfil = document.querySelector("#fecharPerfil");
+
+document.addEventListener("click", function(event) {
+
+    const jogadorClicado = event.target.closest(".jogador");
+
+    if (!jogadorClicado) return;
+
+    const nome = jogadorClicado.querySelector("span")?.textContent;
+
+    const ranking = organizarRanking();
+
+    const indice = ranking.findIndex(
+        jogador => jogador.nome === nome
+    );
+
+    if (indice === -1) return;
+
+    const jogador = ranking[indice];
+
+    document.querySelector("#perfilFoto").src = jogador.foto || "";
+    document.querySelector("#perfilNome").textContent = jogador.nome;
+    document.querySelector("#perfilPosicao").textContent =
+        `${indice + 1}º lugar no ranking`;
+
+    document.querySelector("#perfilGols").textContent =
+        Number(jogador.gols) || 0;
+
+    document.querySelector("#perfilAssistencias").textContent =
+        Number(jogador.assistencias) || 0;
+
+    document.querySelector("#perfilPontos").textContent =
+        formatarPontos(calcularPontos(jogador));
+
+    perfilModal.classList.add("ativo");
+});
+
+function fecharJanelaPerfil() {
+    perfilModal.classList.remove("ativo");
+}
+
+fecharPerfil.addEventListener("click", fecharJanelaPerfil);
+
+perfilModal.addEventListener("click", function(event) {
+    if (event.target === perfilModal) {
+        fecharJanelaPerfil();
+    }
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        fecharJanelaPerfil();
+    }
+});

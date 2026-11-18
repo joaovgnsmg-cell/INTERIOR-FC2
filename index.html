@@ -29,6 +29,65 @@
 💾 Salvar Alterações 
 </button> 
 </div>
+
+<section class="destaques">
+
+    <h2>⭐ DESTAQUES DA TEMPORADA</h2>
+
+    <div class="destaques-grid">
+
+        <div class="destaque-card">
+            <span class="destaque-tipo">⚽ ARTILHEIRO</span>
+            <img id="fotoArtilheiro" src="" alt="Artilheiro">
+            <h3 id="nomeArtilheiro">Carregando...</h3>
+            <strong id="golsArtilheiro">0 gols</strong>
+        </div>
+
+        <div class="destaque-card">
+            <span class="destaque-tipo">👟 GARÇOM</span>
+            <img id="fotoGarcom" src="" alt="Maior assistente">
+            <h3 id="nomeGarcom">Carregando...</h3>
+            <strong id="assistenciasGarcom">0 assistências</strong>
+        </div>
+
+        <div class="destaque-card">
+            <span class="destaque-tipo">🏆 LÍDER</span>
+            <img id="fotoLider" src="" alt="Líder do ranking">
+            <h3 id="nomeLider">Carregando...</h3>
+            <strong id="pontosLider">0 pontos</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<div class="estatisticas">
+
+    <div class="card-estatistica">
+        <span>⚽</span>
+        <h3>Total de gols</h3>
+        <strong id="totalGols">0</strong>
+    </div>
+
+    <div class="card-estatistica">
+        <span>🎯</span>
+        <h3>Assistências</h3>
+        <strong id="totalAssistencias">0</strong>
+    </div>
+
+    <div class="card-estatistica">
+        <span>👥</span>
+        <h3>Jogadores</h3>
+        <strong id="totalJogadores">0</strong>
+    </div>
+
+    <div class="card-estatistica">
+        <span>🏆</span>
+        <h3>Total de pontos</h3>
+        <strong id="totalPontos">0</strong>
+    </div>
+
+</div>
 <div class="tabela-box">
 <table>
 
@@ -53,6 +112,41 @@
 <p>Interior FC © 2026</p>
 </footer>
 
+</div>
+<div id="perfilModal" class="perfil-modal">
+    <div class="perfil-conteudo">
+
+        <button id="fecharPerfil" class="fechar-perfil">&times;</button>
+
+        <img id="perfilFoto" src="" alt="Foto do jogador">
+
+        <h2 id="perfilNome">Jogador</h2>
+
+        <p id="perfilPosicao">1º lugar</p>
+
+        <div class="perfil-estatisticas">
+
+            <div>
+                <span>⚽</span>
+                <strong id="perfilGols">0</strong>
+                <small>Gols</small>
+            </div>
+
+            <div>
+                <span>👟</span>
+                <strong id="perfilAssistencias">0</strong>
+                <small>Assistências</small>
+            </div>
+
+            <div>
+                <span>🏆</span>
+                <strong id="perfilPontos">0</strong>
+                <small>Pontos</small>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

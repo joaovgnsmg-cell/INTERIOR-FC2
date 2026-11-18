@@ -1,503 +1,1039 @@
+
+/* =====================================
+   INTERIOR FC - BLUE & RED EDITION
+===================================== */
+
+:root {
+    --fundo: #080d1c;
+    --card: #101a30;
+    --card-hover: #172642;
+    --azul: #3987ff;
+    --azul-claro: #55a5ff;
+    --vermelho: #ff354d;
+    --branco: #ffffff;
+    --cinza: #9baac3;
+    --dourado: #ffc83d;
+    --borda: #233553;
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #050505;
-  color: white;
-  padding: 20px;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at top left, #142b54 0%, transparent 40%),
+        radial-gradient(ellipse at bottom right, #35101e 0%, transparent 35%),
+        var(--fundo);
+    color: var(--branco);
+    min-height: 100vh;
+    padding: 25px 15px;
 }
 
 .container {
-  max-width: 1100px;
-  margin: auto;
+    max-width: 1150px;
+    margin: auto;
 }
 
-/* TOPO */
+/* =====================================
+   CABEÇALHO
+===================================== */
+
 .topo {
-  background: linear-gradient(135deg, #064d1d, #0f7a2f);
-  padding: 25px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 230px;
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 22px;
+    border: 1px solid #294b80;
+    background:
+        linear-gradient(115deg, #101d38 0%, #102e5e 65%, #381522 100%);
+    box-shadow: 0 15px 45px rgba(0,0,0,.4);
+}
+
+.topo::before {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border: 45px solid rgba(57,135,255,.10);
+    border-radius: 50%;
+    right: 80px;
+    top: -150px;
+}
+
+.topo::after {
+    content: "";
+    position: absolute;
+    width: 170px;
+    height: 170px;
+    background: rgba(255,53,77,.08);
+    border-radius: 50%;
+    right: -50px;
+    bottom: -90px;
 }
 
 .topo h1 {
-  font-size: 40px;
-  letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+    font-size: clamp(35px, 6vw, 58px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: white;
+}
+
+.topo h1::first-letter {
+    color: var(--azul-claro);
 }
 
 .topo p {
-  color: #d8f3dc;
-  margin-top: 5px;
+    position: relative;
+    z-index: 1;
+    margin-top: 12px;
+    color: #c3d5f3;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .bola {
-  font-size: 32px;
+    position: relative;
+    z-index: 1;
+    font-size: 70px;
+    filter: drop-shadow(0 0 20px rgba(57,135,255,.4));
 }
 
-/* TABELA */
+/* =====================================
+   RANKING
+===================================== */
+
 .tabela-box {
-  margin-top: 25px;
-  background: #0b0b0b;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #1f1f1f;
+    width: 100%;
+    margin-top: 30px;
+    overflow-x: auto;
+    background: rgba(16,26,48,.96);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.3);
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    min-width: 650px;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
 thead {
-  background: #0f7a2f;
+    background: linear-gradient(90deg, #174b94, #236dd4);
 }
 
 th {
-  padding: 18px;
-  text-align: center;
+    padding: 20px 12px;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+}
+
+th:first-child,
+td:first-child {
+    width: 8%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 40%;
+}
+
+th:nth-child(3),
+td:nth-child(3),
+th:nth-child(4),
+td:nth-child(4),
+th:nth-child(5),
+td:nth-child(5) {
+    width: 17.33%;
 }
 
 td {
-  padding: 16px;
-  text-align: center;
-  border-top: 1px solid #1f1f1f;
-}
-
-/* JOGADOR */
-.jogador {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-align: left;
-}
-
-.jogador img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #0f7a2f;
-}
-
-/* PRIMEIRO LUGAR DOURADO */
-.primeiro {
-  background: linear-gradient(
-    90deg,
-    rgba(245, 197, 66, 0.18),
-    transparent
-  );
-}
-
-.primeiro .posicao {
-  color: #f5c542;
-  font-weight: bold;
-}
-
-/* SEGUNDO E TERCEIRO */
-.segundo .posicao {
-  color: #c9d1d9;
-}
-
-.terceiro .posicao {
-  color: #cd7f32;
-}
-
-/* PONTOS */
-.pontos {
-  color: #7dff9b;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-/* RODAPÉ */
-footer {
-  text-align: center;
-  margin-top: 20px;
-  color: #999;
-}
-
-/* CELULAR */
-@media (max-width: 700px) {
-
-  .topo {
-    flex-direction: column;
-    gap: 10px;
+    padding: 17px 12px;
     text-align: center;
-  }
-
-  th, td {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .jogador img {
-    width: 40px;
-    height: 40px;
-  }
-}
-#adminBtn{ 
-    background:#2ecc71; 
-    color:#000; border:none; 
-    padding:12px 18px;
-    border-radius:10px;
-    font-weight:bold; 
-    cursor:pointer;
-    margin:20px 0; 
-    }
-    #adminPanel{ 
-        background:#111;
-        border:1px solid #2ecc71;
-        border-radius:16px; 
-        padding:20px;
-        margin:20px 0; 
-        }
-        .hidden{ 
-            display:none; 
-        }
-        .admin-player{
-            display:flex; 
-            align-items:center; 
-            justify-content:space-between;
-            gap:10px;
-            flex-wrap:wrap; 
-            margin:12px 0; 
-            padding:12px;
-             background:#1a1a1a; 
-            border-radius:10px; 
-            }
-            .admin-player span{
-                 font-weight:bold; 
-                 min-width:120px; 
-                }
-                .controles{
-                     display:flex; 
-                     gap:8px;
-                      flex-wrap:wrap;
-                     }
-                     .controles button{
-                         background:#2ecc71; 
-                         border:none;
-                          color:#000; 
-                          padding:8px 12px; 
-                          border-radius:8px; 
-                          cursor:pointer; 
-                          font-weight:bold;
-                         }
-                         .controles button:hover{
-                             opacity:.85; 
-                            }
-.salvar-btn{ 
-background:#00c853; 
-color:white; 
-border:none; 
-padding:14px 20px; 
- border-radius:12px;
- font-size:16px; 
-font-weight:bold; 
-cursor:pointer; 
-margin-top:20px; 
- width:100%; 
-transition:.3s; 
-}
-.salvar-btn:hover{
-  background:#00e676;
-  transform:scale(1.02);
-  box-shadow:0 0 15px rgba(0,230,118,.5);
-}
-
-/* CORREÇÃO DO RANKING */
-.tabela-box {
-    width: 100%;
-    margin-top: 25px;
-    overflow-x: auto;
-    border-radius: 20px;
-}
-
-table {
-    width: 100%;
-    min-width: 650px;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-
-th:first-child,
-td:first-child {
-    width: 8%;
-}
-
-th:nth-child(2),
-td:nth-child(2) {
-    width: 40%;
-}
-
-th:nth-child(3),
-td:nth-child(3),
-th:nth-child(4),
-td:nth-child(4),
-th:nth-child(5),
-td:nth-child(5) {
-    width: 17.33%;
-}
-
-th, td {
+    border-bottom: 1px solid #202e48;
     vertical-align: middle;
     white-space: nowrap;
+    font-size: 14px;
 }
 
-td.jogador {
-    display: table-cell;
-    text-align: left;
-    vertical-align: middle;
+tbody tr {
+    background: #101a30;
+    transition: .25s ease;
 }
+
+tbody tr:hover {
+    background: #1b2d4c;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* =====================================
+   JOGADORES
+===================================== */
+
+/* FOTOS DOS JOGADORES */
 
 .jogador {
     display: flex;
     align-items: center;
-    gap: 12px;
-    min-width: 0;
-}
-
-.jogador img {
-    flex-shrink: 0;
-}
-
-.jogador span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-@media (max-width: 700px) {
-    body {
-        padding: 10px;
-    }
-
-    .tabela-box {
-        overflow-x: auto;
-    }
-
-    table {
-        min-width: 650px;
-    }
-
-    th, td {
-        padding: 12px 8px;
-        font-size: 13px;
-    }
-}
-
-/* AJUSTE FINAL DA TABELA */
-
-.tabela-box {
-    width: 100%;
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    min-width: 650px;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-
-th:first-child,
-td:first-child {
-    width: 8%;
-}
-
-th:nth-child(2),
-td:nth-child(2) {
-    width: 40%;
-}
-
-th:nth-child(3),
-td:nth-child(3),
-th:nth-child(4),
-td:nth-child(4),
-th:nth-child(5),
-td:nth-child(5) {
-    width: 17.33%;
-}
-
-.jogador {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    gap: 15px;
     text-align: left;
     min-width: 0;
 }
 
 .jogador img {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+    border-radius: 15px;
     object-fit: cover;
-    border: 2px solid #0f7a2f;
+    object-position: center;
+    border: 2px solid var(--azul);
+    box-shadow: 0 0 16px rgba(57,135,255,.25);
+    transition: .3s;
+}
+
+.jogador img:hover {
+    transform: scale(1.07);
+    border-color: var(--vermelho);
 }
 
 .jogador span {
     font-weight: bold;
+    font-size: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-td {
-    vertical-align: middle;
+/* =====================================
+   PRIMEIRO, SEGUNDO E TERCEIRO
+===================================== */
+
+.primeiro {
+    background: linear-gradient(
+        90deg,
+        rgba(255,200,61,.14),
+        rgba(255,200,61,.015)
+    );
 }
 
-@media (max-width: 700px) {
-    body {
-        padding: 10px;
-    }
-
-    .tabela-box {
-        overflow-x: auto;
-    }
-
-    table {
-        min-width: 650px;
-    }
-
-    th, td {
-        padding: 12px 8px;
-        font-size: 13px;
-    }
-
-    .jogador img {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-    }
+.primeiro .posicao {
+    color: var(--dourado);
+    font-size: 20px;
+    font-weight: 900;
 }
 
-/* ===== PAINEL ADMINISTRATIVO ===== */
+.primeiro .jogador img {
+    border-color: var(--dourado);
+    box-shadow: 0 0 15px rgba(255,200,61,.2);
+}
+
+.segundo .posicao {
+    color: #cbd5e1;
+    font-weight: 900;
+}
+
+.terceiro .posicao {
+    color: #cd8955;
+    font-weight: 900;
+}
+
+/* =====================================
+   PONTUAÇÃO
+===================================== */
+
+.pontos {
+    color: var(--azul-claro);
+    font-size: 20px;
+    font-weight: 900;
+    text-shadow: 0 0 12px rgba(57,135,255,.25);
+}
+
+/* =====================================
+   BOTÃO ADMIN
+===================================== */
+
+#adminBtn {
+    background: linear-gradient(135deg, var(--azul), #1c58b5);
+    color: white;
+    border: none;
+    padding: 14px 23px;
+    border-radius: 11px;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin: 22px 0;
+    transition: .3s;
+    box-shadow: 0 5px 20px rgba(57,135,255,.2);
+}
+
+#adminBtn:hover {
+    background: var(--vermelho);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(255,53,77,.3);
+}
+
+/* =====================================
+   PAINEL ADMINISTRATIVO
+===================================== */
 
 #adminPanel {
-    background: #101510;
-    border: 1px solid #0f7a2f;
-    border-radius: 18px;
-    padding: 22px;
-    margin-top: 20px;
-    box-shadow: 0 0 18px rgba(15, 122, 47, 0.12);
+    background: linear-gradient(145deg, #111e36, #0c1425);
+    border: 1px solid #294b80;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 15px 40px rgba(0,0,0,.3);
 }
 
 #adminPanel h2 {
-    color: #2ecc71;
-    font-size: 23px;
-    margin-bottom: 20px;
+    color: var(--azul-claro);
+    font-size: 24px;
+    margin-bottom: 22px;
     text-align: center;
 }
 
-/* CARD DE CADA JOGADOR */
+.hidden {
+    display: none !important;
+}
+
+/* =====================================
+   CARDS ADMIN
+===================================== */
 
 .admin-player {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    background: #191f1a;
-    border: 1px solid #292f29;
+    background: #17243b;
+    border: 1px solid #2b3e5d;
     border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 12px;
-    transition: 0.3s;
+    padding: 17px;
+    margin-bottom: 13px;
+    transition: .25s;
 }
 
 .admin-player:hover {
-    border-color: #2ecc71;
-    transform: translateY(-2px);
+    border-color: var(--azul);
+    background: #1b2d4b;
 }
 
 .admin-player h3 {
     width: 100%;
     color: white;
-    font-size: 19px;
-    margin-bottom: 5px;
+    font-size: 18px;
 }
 
-.admin-player p {
-    color: #c8d5ca;
+.admin-player p,
+.admin-player span {
+    color: #bdcbe0;
     font-size: 14px;
     font-weight: bold;
-    margin-right: 5px;
 }
 
-/* BOTÕES DE GOLS E ASSISTÊNCIAS */
+/* =====================================
+   CONTROLES
+===================================== */
 
+.controles {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.controles button,
 .admin-player button {
-    background: #0f7a2f;
+    background: #205db5;
     color: white;
-    border: none;
-    padding: 10px 15px;
+    border: 1px solid #3987ff;
+    padding: 10px 14px;
     border-radius: 9px;
     font-weight: bold;
-    font-size: 13px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: .2s;
 }
 
+.controles button:hover,
 .admin-player button:hover {
-    background: #2ecc71;
-    color: #050505;
-    transform: scale(1.04);
+    background: var(--vermelho);
+    border-color: var(--vermelho);
+    transform: translateY(-2px);
 }
 
+.controles button:active,
 .admin-player button:active {
-    transform: scale(0.96);
+    transform: scale(.95);
 }
 
-/* BOTÃO SALVAR */
+/* =====================================
+   SALVAR
+===================================== */
 
 .salvar-btn {
-    background: #00c853;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 12px;
     width: 100%;
-    font-size: 16px;
-    font-weight: bold;
+    margin-top: 18px;
+    padding: 16px;
+    border: none;
+    border-radius: 11px;
+    background: linear-gradient(90deg, #236dd4, #3987ff);
+    color: white;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     cursor: pointer;
-    margin-top: 15px;
-    transition: 0.3s;
+    transition: .3s;
 }
 
 .salvar-btn:hover {
-    background: #00e676;
-    box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+    background: linear-gradient(90deg, #e52643, #ff354d);
+    box-shadow: 0 0 20px rgba(255,53,77,.3);
+    transform: translateY(-2px);
 }
 
 .salvar-btn:disabled,
 .admin-player button:disabled {
-    opacity: 0.5;
+    opacity: .45;
     cursor: not-allowed;
     transform: none;
 }
 
-/* CELULAR */
+/* =====================================
+   RODAPÉ
+===================================== */
 
-@media (max-width: 600px) {
-    #adminPanel {
-        padding: 14px;
+footer {
+    text-align: center;
+    color: var(--cinza);
+    padding: 25px 10px;
+    margin-top: 30px;
+    border-top: 1px solid var(--borda);
+    font-size: 13px;
+}
+
+/* =====================================
+   ANIMAÇÕES
+===================================== */
+
+@keyframes entrada {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
     }
 
-    .admin-player {
-        gap: 9px;
-        padding: 12px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.topo,
+.tabela-box,
+#adminPanel {
+    animation: entrada .5s ease both;
+}
+
+/* =====================================
+   CELULAR
+===================================== */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 12px 8px;
     }
 
-    .admin-player button {
-        padding: 10px;
+    .topo {
+        min-height: 190px;
+        padding: 25px 15px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .topo h1 {
+        font-size: 34px;
+    }
+
+    .topo p {
+        font-size: 11px;
+    }
+
+    .bola {
+        font-size: 48px;
+    }
+
+    .tabela-box {
+        margin-top: 20px;
+    }
+
+    table {
+        min-width: 650px;
+    }
+
+    th {
+        padding: 14px 8px;
+        font-size: 10px;
+    }
+
+    td {
+        padding: 12px 8px;
         font-size: 12px;
     }
 
-    .admin-player h3 {
+    .jogador {
+        gap: 9px;
+    }
+
+    .jogador img {
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+    border-radius: 12px;
+}
+    }
+
+    .jogador span {
+        font-size: 12px;
+    }
+
+    .pontos {
         font-size: 17px;
     }
+
+    #adminPanel {
+        padding: 15px;
+    }
+
+    #adminPanel h2 {
+        font-size: 20px;
+    }
+
+    .admin-player {
+        padding: 12px;
+        gap: 9px;
+    }
+
+    .admin-player button,
+    .controles button {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+/* ===== FOTO AMPLIADA ===== */
+
+.foto-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s ease;
+    padding: 20px;
 }
+
+.foto-modal.ativo {
+    opacity: 1;
+    visibility: visible;
+}
+
+.foto-modal img {
+    max-width: 90%;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 18px;
+    border: 3px solid var(--azul);
+    box-shadow: 0 0 35px rgba(57, 135, 255, .4);
+    transform: scale(.7);
+    transition: transform .3s ease;
+}
+
+.foto-modal.ativo img {
+    transform: scale(1);
+}
+
+.foto-modal .fechar-foto {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    background: var(--vermelho);
+    color: white;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.jogador img {
+    cursor: pointer;
+}
+
+/* ===== CARTÕES DE ESTATÍSTICAS ===== */
+
+.estatisticas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.card-estatistica {
+    background: linear-gradient(145deg, #101a30, #152441);
+    border: 1px solid #233553;
+    border-radius: 16px;
+    padding: 22px 15px;
+    text-align: center;
+    transition: .3s ease;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .2);
+}
+
+.card-estatistica:hover {
+    transform: translateY(-5px);
+    border-color: #3987ff;
+    box-shadow: 0 8px 25px rgba(57, 135, 255, .18);
+}
+
+.card-estatistica span {
+    font-size: 28px;
+}
+
+.card-estatistica h3 {
+    color: #9baac3;
+    font-size: 13px;
+    margin: 10px 0;
+    text-transform: uppercase;
+}
+
+.card-estatistica strong {
+    display: block;
+    color: #55a5ff;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.card-estatistica:nth-child(2) strong {
+    color: #ff354d;
+}
+
+.card-estatistica:nth-child(4) strong {
+    color: #ffc83d;
+}
+
+@media (max-width: 700px) {
+    .estatisticas {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .card-estatistica {
+        padding: 18px 10px;
+    }
+
+    .card-estatistica strong {
+        font-size: 25px;
+    }
+}
+
+/* ===== DESTAQUE DO PÓDIO ===== */
+
+/* Primeiro lugar */
+.primeiro {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 200, 61, .18),
+        rgba(255, 200, 61, .04)
+    );
+}
+
+.primeiro .posicao {
+    color: #ffc83d;
+    font-size: 23px;
+    font-weight: 900;
+}
+
+.primeiro .jogador img {
+    border: 3px solid #ffc83d;
+    box-shadow: 0 0 15px rgba(255, 200, 61, .35);
+}
+
+/* Segundo lugar */
+.segundo {
+    background: linear-gradient(
+        90deg,
+        rgba(192, 204, 220, .14),
+        transparent
+    );
+}
+
+.segundo .posicao {
+    color: #c7d2e0;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.segundo .jogador img {
+    border: 2px solid #c7d2e0;
+}
+
+/* Terceiro lugar */
+.terceiro {
+    background: linear-gradient(
+        90deg,
+        rgba(205, 127, 50, .15),
+        transparent
+    );
+}
+
+.terceiro .posicao {
+    color: #cd7f32;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.terceiro .jogador img {
+    border: 2px solid #cd7f32;
+}
+
+/* ===== POSIÇÕES E PONTUAÇÃO ===== */
+
+.posicao {
+    font-weight: 800;
+    font-size: 17px;
+    text-align: center;
+}
+
+.pontos {
+    color: #55a5ff;
+    font-size: 19px;
+    font-weight: 900;
+}
+
+/* ===== ANIMAÇÃO AO PASSAR O MOUSE ===== */
+
+.tabela-box tbody tr {
+    transition: background .25s ease, transform .25s ease;
+}
+
+.tabela-box tbody tr:hover {
+    background-color: rgba(57, 135, 255, .10);
+}
+
+/* ===== PERFIL INDIVIDUAL ===== */
+
+.perfil-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .88);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s;
+    padding: 20px;
+}
+
+.perfil-modal.ativo {
+    opacity: 1;
+    visibility: visible;
+}
+
+.perfil-conteudo {
+    position: relative;
+    background: linear-gradient(145deg, #101a30, #172743);
+    border: 1px solid #3987ff;
+    border-radius: 22px;
+    padding: 35px 25px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 0 35px rgba(57, 135, 255, .2);
+    transform: scale(.85);
+    transition: .3s;
+}
+
+.perfil-modal.ativo .perfil-conteudo {
+    transform: scale(1);
+}
+
+.fechar-perfil {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: #ff354d;
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+.perfil-conteudo > img {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3987ff;
+    box-shadow: 0 0 20px rgba(57, 135, 255, .3);
+}
+
+.perfil-conteudo h2 {
+    color: white;
+    margin: 15px 0 5px;
+    font-size: 25px;
+}
+
+.perfil-conteudo > p {
+    color: #ffc83d;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.perfil-estatisticas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.perfil-estatisticas div {
+    background: #0a1325;
+    border-radius: 13px;
+    padding: 15px 5px;
+}
+
+.perfil-estatisticas span {
+    display: block;
+    font-size: 23px;
+}
+
+.perfil-estatisticas strong {
+    display: block;
+    color: #55a5ff;
+    font-size: 23px;
+    margin: 7px 0;
+}
+
+.perfil-estatisticas small {
+    color: #9baac3;
+}
+
+/* ===== NOVO CABEÇALHO INTERIOR FC ===== */
+
+.topo {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px 25px;
+    margin-bottom: 25px;
+
+    background:
+        radial-gradient(
+            circle at 15% 50%,
+            rgba(57, 135, 255, .20),
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 85% 50%,
+            rgba(255, 53, 77, .17),
+            transparent 40%
+        ),
+        linear-gradient(135deg, #101a30, #080d1c);
+
+    border: 1px solid #233553;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .3);
+}
+
+.topo h1 {
+    font-size: clamp(28px, 5vw, 43px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ffffff;
+    text-shadow: 0 0 18px rgba(57, 135, 255, .5);
+    margin-bottom: 8px;
+}
+
+.topo p {
+    color: #9baac3;
+    font-size: 14px;
+    letter-spacing: .5px;
+}
+
+.topo .bola {
+    font-size: 45px;
+    filter: drop-shadow(0 0 12px rgba(57, 135, 255, .5));
+    transition: transform .3s ease;
+}
+
+.topo .bola:hover {
+    transform: rotate(25deg) scale(1.15);
+}
+
+.topo button {
+    margin-top: 18px;
+    padding: 11px 20px;
+    background: #3987ff;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.topo button:hover {
+    background: #ff354d;
+    transform: translateY(-2px);
+}
+
+/* ===== TEMPORADA ===== */
+
+.topo::after {
+    content: "TEMPORADA 2026";
+    position: absolute;
+    bottom: 12px;
+    right: 18px;
+    color: rgba(255, 255, 255, .35);
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 600px) {
+    .topo {
+        gap: 12px;
+        padding: 35px 12px;
+    }
+
+    .topo .bola {
+        font-size: 28px;
+    }
+
+    .topo h1 {
+        letter-spacing: 1px;
+    }
+
+    .topo p {
+        font-size: 11px;
+    }
+}
+
+/* ===== DESTAQUES DA TEMPORADA ===== */
+
+.destaques {
+    margin: 30px 0;
+}
+
+.destaques > h2 {
+    color: #ffffff;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.destaques-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.destaque-card {
+    background: linear-gradient(145deg, #101a30, #172743);
+    border: 1px solid #233553;
+    border-radius: 18px;
+    padding: 22px 15px;
+    text-align: center;
+    transition: .3s ease;
+}
+
+.destaque-card:hover {
+    transform: translateY(-5px);
+    border-color: #3987ff;
+    box-shadow: 0 8px 25px rgba(57, 135, 255, .15);
+}
+
+.destaque-tipo {
+    display: block;
+    color: #55a5ff;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+}
+
+.destaque-card:nth-child(2) .destaque-tipo {
+    color: #ff354d;
+}
+
+.destaque-card:nth-child(3) .destaque-tipo {
+    color: #ffc83d;
+}
+
+.destaque-card img {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3987ff;
+    margin-bottom: 12px;
+}
+
+.destaque-card h3 {
+    color: #ffffff;
+    font-size: 17px;
+    margin: 5px 0 10px;
+}
+
+.destaque-card strong {
+    display: block;
+    color: #55a5ff;
+    font-size: 15px;
+}
+
+@media (max-width: 700px) {
+    .destaques-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .destaque-card {
+        padding: 18px;
+    }
+}
+
